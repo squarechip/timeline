@@ -2,84 +2,339 @@
 <html lang="en-GB">
 
 <head>
-	<title>Timeline Prototype | Hantsweb</title>
-	<link href="dist/css/timeline.min.css" rel="stylesheet">
+  <title>Timeline Prototype</title>
+  <link href="css/style.min.css" rel="stylesheet" />
+  <link href="css/prettyprint.min.css" rel="stylesheet" />
+  <link href="css/timeline.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" />
 </head>
 
 <body>
-	<main>
-		<section class="page-section">
-			<div class="container">
-				<div class="timeline">
-					<div class="timeline__wrap">
-						<div class="timeline__items">
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2018</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus. Lorem
-										ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2015</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2014</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2012</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2010</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus. Lorem
-										ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2007</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2004</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-							<div class="timeline__item">
-								<div class="timeline__content">
-									<h2>2002</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</main>
-	<script type="text/javascript" src="dist/js/timeline.min.js"></script>
-	<script>
-		timeline(document.querySelectorAll('.timeline'), {
-			forceVerticalMode: 700,
-			mode: 'horizontal',
-			verticalStartPosition: 'left',
-			visibleItems: 4
-		});
-	</script>
+  <main>
+    <header class="main-header">
+      <div class="container">
+        <h1>Timeline</h1>
+        <p>A vanilla JavaScript horizontal / vertical timeline component</p>
+        <a class="github-button" href="https://github.com/squarechip/timeline" data-icon="octicon-star" data-size="large" data-show-count="true"
+          aria-label="Star squarechip/timeline on GitHub">Star</a>
+        <nav class="main-menu">
+          <ul>
+            <li class="main-menu__item">
+              <a href="#getting-started">Getting started</a>
+            </li>
+            <li class="main-menu__item">
+              <a href="#horizontal-demo">Horizontal timeline demo</a>
+            </li>
+            <li class="main-menu__item">
+              <a href="#vertical-demo">Vertical timeline demo</a>
+            </li>
+            <li class="main-menu__item">
+              <a href="https://github.com/squarechip/timeline" target="_blank">Get the code on Github</a>
+            </li>
+          </ul>
+          <a href="#" class="menu-toggle">
+            <span></span>
+          </a>
+        </nav>
+      </div>
+      <!-- /container -->
+    </header>
+    <section class="page-section">
+      <div class="container">
+        <h2>Getting started</h2>
+        <h3>1. Include the plugin JavaScript file above the closing
+          <code class="prettyprint lang-html">&lt/body&gt;</code> tag on your page</h3>
+        <pre class="prettyprint lang-html">
+&ltscript src="dist/js/timeline.min.js"&gt;&lt;/script&gt;
+</pre>
+        <h3>2. Include the plugin CSS file in the
+          <code class="prettyprint lang-html">&lthead&gt;</code> section of your page</h3>
+        <pre class="prettyprint lang-html">
+&ltlink href="dist/css/timeline.min.css" rel="stylesheet" /&gt;
+</pre>
+        <h3>3. Add your HTML markup</h3>
+        <pre class="prettyprint lang-html">
+&ltdiv class="timeline"&gt;
+  &ltdiv class="timeline__wrap"&gt;
+    &ltdiv class="timeline__items"&gt;
+      &ltdiv class="timeline__item"&gt;
+        &ltdiv class="timeline__content"&gt;
+          Your content / markup
+        &lt/div&gt;
+      &lt/div&gt;
+      &ltdiv class="timeline__item"&gt;
+        &ltdiv class="timeline__content"&gt;
+          Your content / markup
+        &lt/div&gt;
+      &lt/div&gt;
+      &ltdiv class="timeline__item"&gt;
+        &ltdiv class="timeline__content"&gt;
+          Your content / markup
+        &lt/div&gt;
+      &lt/div&gt;
+    &lt/div&gt;
+  &lt/div&gt;
+&lt/div&gt;
+</pre>
+        <h3>4. Initialize the plugin</h3>
+        <p>
+          <strong>With JavaScript</strong>
+        </p>
+        <pre class="prettyprint lang-js">
+timeline(document.querySelectorAll('.timeline'));
+</pre>
+        <p>
+          <strong>Or with jQuery if you have the jQuery library loaded</strong>
+        </p>
+        <pre class="prettyprint lang-js">
+$('.timeline').timeline();
+</pre>
+      </div>
+      <!-- /container -->
+    </section>
+    <section class="page-section" id="horizontal-demo">
+      <div class="container">
+        <h2>Horizontal timeline demo</h2>
+        <p>A horizontal timeline with 4 visible items, which changes to the vertical mode at an 800px resolution.</p>
+        <div class="timeline" id="timeline-horizontal">
+          <div class="timeline__wrap">
+            <div class="timeline__items">
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2018</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2015</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2014</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2002</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2010</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2007</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2004</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2012</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3>Initialize the plugin using one of the following:</h3>
+        <div class="tabs-section">
+          <ul class="tabs-list">
+            <li class="tabs-list__item">
+              <a href="#tab1">JavaScript</a>
+            </li>
+            <li class="tabs-list__item">
+              <a href="#tab2">jQuery</a>
+            </li>
+            <li class="tabs-list__item">
+              <a href="#tab3">Data attributes</a>
+            </li>
+          </ul>
+          <div class="tab" id="tab1">
+            <pre class="prettyprint lang-js">
+timeline(document.querySelectorAll('.timeline'), {
+  forceVerticalMode: 800,
+  mode: 'horizontal',
+  visibleItems: 4
+});
+</pre>
+          </div>
+          <div class="tab" id="tab2">
+            <pre class="prettyprint lang-js">
+$('.timeline').timeline({
+  forceVerticalMode: 800,
+  mode: 'horizontal',
+  visibleItems: 4
+});
+</pre>
+          </div>
+          <div class="tab" id="tab3">
+            <pre class="prettyprint lang-js">
+timeline(document.querySelectorAll('.timeline'));
+</pre>
+            <p>
+              <strong>Or</strong>
+            </p>
+            <pre class="prettyprint lang-js">
+$('.timeline').timeline();
+</pre>
+            <p>
+              <strong>And</strong>
+            </p>
+            <pre class="prettyprint lang-html">
+&lt;div class="timeline" data-mode="horizontal" data-force-vertical-mode="800" visible-items="4"&gt;
+  ...
+&lt;/div&gt;
+</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-section" <section id="vertical-demo">
+      <div class="container">
+        <h2>Vertical timeline demo</h2>
+        <p>A vertical timeline with the first item aligned to the right</p>
+        <div class="timeline" id="timeline-vertical">
+          <div class="timeline__wrap">
+            <div class="timeline__items">
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2018</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2015</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2014</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2012</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2010</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2007</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2004</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
+                </div>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__content">
+                  <h2>2002</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>
+          <strong>Initialize the plugin using one of the following:</strong>
+        </p>
+        <div class="tabs-section">
+          <ul class="tabs-list">
+            <li class="tabs-list__item active">
+              <a href="#tab4">JavaScript</a>
+            </li>
+            <li class="tabs-list__item">
+              <a href="#tab5">jQuery</a>
+            </li>
+            <li class="tabs-list__item">
+              <a href="#tab6">Data attributes</a>
+            </li>
+          </ul>
+          <div class="tab active" id="tab4">
+            <pre class="prettyprint lang-js">
+timeline(document.querySelectorAll('.timeline'), {
+  verticalStartPosition: 'right'
+});
+</pre>
+          </div>
+          <div class="tab" id="tab5">
+            <pre class="prettyprint lang-js">
+$('.timeline').timeline({
+  verticalStartPosition: 'right'
+});
+</pre>
+          </div>
+          <div class="tab" id="tab6">
+            <pre class="prettyprint lang-js">
+timeline(document.querySelectorAll('.timeline'));
+</pre>
+            <p>
+              <strong>Or</strong>
+            </p>
+            <pre class="prettyprint lang-js">
+$('.timeline').timeline();
+</pre>
+            <p>
+              <strong>And</strong>
+            </p>
+            <pre class="prettyprint lang-html">
+&lt;div class="timeline" data-vertical-start-position="right"&gt;
+  ...
+&lt;/div&gt;
+</pre>
+          </div>
+        </div>
+      </div>
+      <!-- /container -->
+    </section>
+  </main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="js/timeline.min.js"></script>
+  <script src="js/prettify.min.js"></script>
+  <script src="js/main.min.js"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script>
+    timeline(document.querySelectorAll('#timeline-horizontal'), {
+      forceVerticalMode: 800,
+      mode: 'horizontal',
+      visibleItems: 4
+    });
+    timeline(document.querySelectorAll('#timeline-vertical'), {
+      verticalStartPosition: 'right'
+    });
+  </script>
 </body>
 
 </html>
-<!-- googleon: all -->
