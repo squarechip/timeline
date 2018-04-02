@@ -69,7 +69,7 @@ JavaScript
 timelineApp(document.querySelectorAll('.timeline'));
 ```
 
-Jquery
+jQuery
 
 ```javascript
 jQuery('.timeline').timeline();

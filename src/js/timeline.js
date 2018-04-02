@@ -1,15 +1,15 @@
 function timeline(collection, options) {
   const timelines = [];
+  const warningLabel = 'Timeline:';
   let resizeTimer;
   let currentIndex = 0;
-  const warningLabel = 'Timeline:';
 
   // Set default settings
   const defaultSettings = {
     mode: 'vertical',
     forceVerticalMode: 600,
     verticalStartPosition: 'left',
-    visibleItems: 3,
+    visibleItems: 3
   };
 
   // Helper function to test whether values are an integer
@@ -28,7 +28,7 @@ function timeline(collection, options) {
     wrapper.appendChild(el);
   }
 
-  // Helper function to Wrap each element with other HTML elements
+  // Helper function to wrap each element in a group with other HTML elements
   function wrapElements(items) {
     items.forEach(item => {
       itemWrap(item.querySelector('.timeline__content'), document.createElement('div'), 'timeline__content__wrap');
@@ -192,7 +192,7 @@ function timeline(collection, options) {
     }
   }
 
-  // Add arrow controls to horizontal timeline
+  // Add the centre line to the horizontal timeline
   function addHorizontalDivider(tl) {
     if (tl.timelineEl.querySelector('.timeline-divider')) {
       tl.timelineEl.querySelector('.timeline-divider').remove();
