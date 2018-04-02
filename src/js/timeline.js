@@ -30,7 +30,7 @@ function timeline(collection, options) {
 
   // Helper function to wrap each element in a group with other HTML elements
   function wrapElements(items) {
-    items.forEach(item => {
+    items.forEach((item) => {
       itemWrap(item.querySelector('.timeline__content'), document.createElement('div'), 'timeline__content__wrap');
       itemWrap(item.querySelector('.timeline__content__wrap'), document.createElement('div'), 'timeline__item__inner');
     });
@@ -55,7 +55,9 @@ function timeline(collection, options) {
     let wrap;
     let scroller;
     let items;
-    let { mode, verticalStartPosition, forceVerticalMode, visibleItems } = defaultSettings;
+    let {
+      mode, verticalStartPosition, forceVerticalMode, visibleItems
+    } = defaultSettings;
     if (data.mode) {
       ({ mode } = data);
     } else if (options && options.mode) {
@@ -120,7 +122,7 @@ function timeline(collection, options) {
       verticalStartPosition,
       items,
       visibleItems,
-      forceVerticalMode,
+      forceVerticalMode
     });
   }
 
@@ -133,7 +135,7 @@ function timeline(collection, options) {
     // Set widths of items and viewport
     function setWidths() {
       tl.itemWidth = tl.wrap.offsetWidth / tl.visibleItems;
-      tl.items.forEach(item => {
+      tl.items.forEach((item) => {
         item.style.width = `${tl.itemWidth}px`;
       });
       tl.scrollerWidth = tl.itemWidth * tl.items.length;
@@ -219,7 +221,7 @@ function timeline(collection, options) {
     const arrowPrev = tl.timelineEl.querySelector('.timeline-nav-button--prev');
     const arrowNext = tl.timelineEl.querySelector('.timeline-nav-button--next');
     const maxIndex = tl.items.length - tl.visibleItems;
-    [].forEach.call(navArrows, arrow => {
+    [].forEach.call(navArrows, (arrow) => {
       arrow.addEventListener('click', function(e) {
         e.preventDefault();
         currentIndex = this.classList.contains('timeline-nav-button--next') ? (currentIndex += 1) : (currentIndex -= 1);
@@ -270,7 +272,7 @@ function timeline(collection, options) {
     }
     // Bring elements into view as the page is scrolled
     window.addEventListener('scroll', () => {
-      tl.items.forEach(item => {
+      tl.items.forEach((item) => {
         if (isElementInViewport(item)) {
           item.classList.add('fadeIn');
         }
@@ -283,19 +285,19 @@ function timeline(collection, options) {
     currentIndex = 0;
     tl.timelineEl.classList.remove('timeline--horizontal', 'timeline--mobile');
     tl.scroller.removeAttribute('style');
-    tl.items.forEach(item => {
+    tl.items.forEach((item) => {
       item.removeAttribute('style');
       item.classList.remove('animated', 'fadeIn', 'timeline__item--left', 'timeline__item--right');
     });
     const navArrows = tl.timelineEl.querySelectorAll('.timeline-nav-button');
-    [].forEach.call(navArrows, arrow => {
+    [].forEach.call(navArrows, (arrow) => {
       arrow.parentNode.removeChild(arrow);
     });
   }
 
   // Set up the timelines
   function setUpTimelines() {
-    timelines.forEach(tl => {
+    timelines.forEach((tl) => {
       tl.timelineEl.style.opacity = 0;
       if (!tl.timelineEl.classList.contains('timeline--loaded')) {
         wrapElements(tl.items);
@@ -326,7 +328,7 @@ function timeline(collection, options) {
 }
 
 if (window.jQuery) {
-  ($ => {
+  (($) => {
     $.fn.timeline = function(opts) {
       timeline(this, opts);
       return this;

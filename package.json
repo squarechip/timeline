@@ -14,17 +14,13 @@
     "url": "https://github.com/squarechip/timeline/issues"
   },
   "devDependencies": {
-    "autoprefixer": "^8.1.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.9.0",
-    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-import": "^2.10.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-clean-css": "^3.9.0",
-    "gulp-concat": "^2.6.1",
     "gulp-eslint": "^4.0.2",
     "gulp-header": "^2.0.5",
     "gulp-imagemin": "^4.1.0",
@@ -38,7 +34,6 @@
     "postcss-cssnext": "^3.0.0",
     "postcss-pxtorem": "^4.0.1",
     "postcss-reporter": "^5.0.0",
-    "postcss-scss": "^1.0.2",
-    "prettier": "^1.11.1"
+    "postcss-scss": "^1.0.2"
   }
 }

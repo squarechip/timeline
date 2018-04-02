@@ -12,6 +12,8 @@ const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
 const cssnext = require('postcss-cssnext');
 const pxtorem = require('postcss-pxtorem');
+const reporter = require('postcss-reporter');
+const syntaxScss = require('postcss-scss');
 const header = require('gulp-header');
 
 const banner = [
@@ -32,18 +34,15 @@ gulp.task('build-js', () =>
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
     .pipe(sourcemaps.init())
-    .pipe(
-      babel({
-        presets: ['env'],
-      })
-    )
+    .pipe(babel({
+      presets: ['env'],
+    }))
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(header(banner))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist/js/'))
-    .pipe(livereload())
-);
+    .pipe(livereload()));
 
 gulp.task('build-css', () => {
   const processors = [
@@ -53,6 +52,9 @@ gulp.task('build-css', () => {
       mediaQuery: true,
       replace: true,
     }),
+    reporter({
+      clearMessages: true
+    })
   ];
 
   return gulp
@@ -60,7 +62,7 @@ gulp.task('build-css', () => {
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(sass())
-    .pipe(postcss(processors))
+    .pipe(postcss(processors), { syntax: syntaxScss })
     .pipe(rename({ suffix: '.min' }))
     .pipe(cleanCSS())
     .pipe(sourcemaps.write('./'))
@@ -73,8 +75,7 @@ gulp.task('images', () =>
     .src('src/images/**')
     .pipe(imagemin())
     .pipe(gulp.dest('dist/images'))
-    .pipe(livereload())
-);
+    .pipe(livereload()));
 
 gulp.task('watch', () => {
   livereload.listen();
