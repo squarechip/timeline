@@ -1,7 +1,10 @@
 .timeline {
+    box-sizing: border-box;
     position: relative;
-    * {
-        box-sizing: border-box;
+    *,
+    *::before,
+    *::after {
+        box-sizing: inherit;
     }
     &:not(.timeline--horizontal)::before {
         background-color: #DDD;
@@ -33,12 +36,12 @@
         border: 4px solid #DDD;
         border-radius: 50%;
         content: '';
-        height: 14px;
+        height: 20px;
         position: absolute;
-        right: -11px;
+        right: -10px;
         transform: translateY(-50%);
         top: 50%;
-        width: 14px;
+        width: 20px;
         z-index: 1;
     }
     &.animated {
@@ -59,7 +62,7 @@
 	left: 50%;
     padding: 10px 0 10px 40px;
     &::after {
-        left: -11px;
+        left: -10px;
     }
     .timeline__content {
         &::before {

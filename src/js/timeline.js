@@ -1,8 +1,10 @@
 function timeline(collection, options) {
   const timelines = [];
   const warningLabel = 'Timeline:';
+  const winWidth = window.innerWidth;
   let resizeTimer;
   let currentIndex = 0;
+  console.log(winWidth);
 
   // Set default settings
   const defaultSettings = {
@@ -323,7 +325,13 @@ function timeline(collection, options) {
 
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(setUpTimelines, 250);
+    resizeTimer = setTimeout(() => {
+      const newWinWidth = window.innerWidth;
+      console.log(newWinWidth);
+      if (newWinWidth !== winWidth) {
+        setUpTimelines();
+      }
+    }, 250);
   });
 }
 
