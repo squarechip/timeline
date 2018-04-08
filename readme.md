@@ -66,7 +66,7 @@ A vanilla JavaScript horizontal / vertical timeline.
 JavaScript
 
 ```javascript
-timelineApp(document.querySelectorAll('.timeline'));
+timeline(document.querySelectorAll('.timeline'));
 ```
 
 jQuery
@@ -188,7 +188,7 @@ jQuery('.timeline').timeline({
 
 **Data attributes**
 ```javascript
-timelineApp(document.querySelectorAll('.timeline'));
+timeline(document.querySelectorAll('.timeline'));
 
 Or
 
@@ -211,7 +211,7 @@ With the first item aligned to the right
 
 **JavaScript**
 ```javascript
-timelineApp(document.querySelectorAll('.timeline'), {
+timeline(document.querySelectorAll('.timeline'), {
     verticalStartPosition: 'right'
 });
 ```
@@ -227,7 +227,7 @@ jQuery('.timeline').timeline({
 
 **Data attributes**
 ```javascript
-timelineApp(document.querySelectorAll('.timeline'));
+timeline(document.querySelectorAll('.timeline'));
 
 Or
 

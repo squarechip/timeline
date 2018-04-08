@@ -1,7 +1,7 @@
 function timeline(collection, options) {
   const timelines = [];
   const warningLabel = 'Timeline:';
-  const winWidth = window.innerWidth;
+  let winWidth = window.innerWidth;
   let resizeTimer;
   let currentIndex = 0;
 
@@ -37,14 +37,14 @@ function timeline(collection, options) {
     });
   }
 
-  // Helper function to check if an element is in viewport
+  // Helper function to check if an element is partially in the viewport
   function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
     return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight * 1.1 || document.documentElement.clientHeight * 1.1) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+      rect.left <= (window.innerWidth || document.documentElement.clientWidth) &&
+      (rect.top + rect.height) >= 0 &&
+      (rect.left + rect.width) >= 0
     );
   }
 
@@ -328,6 +328,7 @@ function timeline(collection, options) {
       const newWinWidth = window.innerWidth;
       if (newWinWidth !== winWidth) {
         setUpTimelines();
+        winWidth = newWinWidth;
       }
     }, 250);
   });
