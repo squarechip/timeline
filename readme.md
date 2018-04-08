@@ -250,3 +250,4 @@ And
 * Generate a tab menu to navigate to specific items
 * Ability to change classes for the HTML elements
 * Add various animation options for the vertical timeline (e.g. slide up/slide in/fade in)
+* Ability to set trigger distance from the top of the page in vertical mode
