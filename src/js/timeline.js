@@ -144,7 +144,7 @@ function timeline(collection, options) {
 
     // Further specific testing of input values
     if (settings.verticalTrigger) {
-      const triggerArray = settings.verticalTrigger.match(/(\d*\.?\d*)(.*)/);
+      const triggerArray = String(settings.verticalTrigger).match(/(\d*\.?\d*)(.*)/);
       let triggerValue = triggerArray[1];
       let triggerUnit = triggerArray[2];
       let triggerValid = true;
