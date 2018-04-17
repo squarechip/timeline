@@ -217,7 +217,8 @@ $('.timeline').timeline();
         <section class="page-section" id="vertical-demo">
             <div class="container">
                 <h2>Vertical timeline demo</h2>
-                <p>A vertical timeline with the first item aligned to the right</p>
+                <p>A vertical timeline with the first item aligned to the right and the elements set to come into view 150px
+                    from the bottom of the window</p>
                 <div class="timeline" id="timeline-vertical">
                     <div class="timeline__wrap">
                         <div class="timeline__items">
@@ -296,14 +297,16 @@ $('.timeline').timeline();
                     <div class="tab active" id="tab4">
                         <pre class="prettyprint lang-js">
 timeline(document.querySelectorAll('.timeline'), {
-  verticalStartPosition: 'right'
+  verticalStartPosition: 'right',
+  verticalTrigger: '150px'
 });
 </pre>
                     </div>
                     <div class="tab" id="tab5">
                         <pre class="prettyprint lang-js">
 $('.timeline').timeline({
-  verticalStartPosition: 'right'
+  verticalStartPosition: 'right',
+  verticalTrigger: '150px'
 });
 </pre>
                     </div>
@@ -321,7 +324,7 @@ $('.timeline').timeline();
                             <strong>And</strong>
                         </p>
                         <pre class="prettyprint lang-html">
-&lt;div class="timeline" data-vertical-start-position="right"&gt;
+&lt;div class="timeline" data-vertical-start-position="right" data-vertical-trigger="150px"&gt;
   ...
 &lt;/div&gt;
 </pre>
@@ -343,7 +346,8 @@ $('.timeline').timeline();
             visibleItems: 4
         });
         timeline(document.querySelectorAll('#timeline-vertical'), {
-            verticalStartPosition: 'right'
+            verticalStartPosition: 'right',
+            verticalTrigger: '150px'
         });
     </script>
 </body>
