@@ -187,7 +187,7 @@
             transform: translateX(-50%);
             top: 100%;
         }
-        &:nth-child(even) {
+        &--bottom {
             padding: 40px 0 0;
             &::after {
                 top: 0;

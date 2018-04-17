@@ -100,47 +100,7 @@ Data attribute
 ```
 <br />
 
-**visibleItems**
-
-If using the timeline in horizontal mode, define how many items are visible in the viewport.
-
-JavaScript/jQuery
-```
-default: 3
-options: integer
-```
-
-Data attribute
-
-```html
-<div class="timeline" data-visible-items="3">
-    ...
-</div>
-```
-<br />
-
-**verticalStartPosition**
-
-When using the timeline in vertical mode, you can choose the alignment of the first item.
-
-JavaScript/jQuery
-```
-default: 'left'
-options: 'left', 'right'
-```
-
-
-Data attribute
-
-```html
-<div class="timeline" data-vertical-start-position="right">
-    ...
-</div>
-```
-
-<br />
-
-**forceVerticalWidth**
+**forceVerticalMode**
 
 When using the timeline in horizontal mode, define at which viewport width it should revert to vertical mode
 
@@ -159,6 +119,107 @@ Data attribute
 ```
 <br />
 
+**horizontalStartPosition**
+
+When using the timeline in horizontal mode, define the vertical alignment of the first item
+
+JavaScript/jQuery
+```
+default: 'top'
+options: 'bottom', 'top'
+```
+
+
+Data attribute
+
+```html
+<div class="timeline" data-horizontal-start-position="top">
+    ...
+</div>
+```
+
+<br />
+
+**moveItems**
+
+When using the timeline in horizontal mode, define how many items to move when clicking a navigation button
+
+JavaScript/jQuery
+```
+default: 1
+options: integer
+```
+
+Data attribute
+
+```html
+<div class="timeline" data-move-items="1">
+    ...
+</div>
+```
+<br />
+
+**verticalStartPosition**
+
+When using the timeline in vertical mode, define the alignment of the first item
+
+JavaScript/jQuery
+```
+default: 'left'
+options: 'left', 'right'
+```
+
+
+Data attribute
+
+```html
+<div class="timeline" data-vertical-start-position="right">
+    ...
+</div>
+```
+
+<br />
+
+**verticalTrigger**
+
+When using the timeline in vertical mode, define the distance from the bottom of the screen, in percent or pixels, that the items slide into view
+
+JavaScript/jQuery
+```
+default: '15%'
+options: percentage or pixel value e.g. '20%' or '150px'
+```
+
+
+Data attribute
+
+```html
+<div class="timeline" data-vertical-trigger="150px">
+    ...
+</div>
+```
+
+<br />
+
+**visibleItems**
+
+If using the timeline in horizontal mode, define how many items are visible in the viewport
+
+JavaScript/jQuery
+```
+default: 3
+options: integer
+```
+
+Data attribute
+
+```html
+<div class="timeline" data-visible-items="3">
+    ...
+</div>
+```
+<br />
+
 ## Examples
 
 ### Horizontal timeline
@@ -170,6 +231,7 @@ With 4 items visible in the viewport and changes into vertical mode at a 800px b
 ```
 timeline(document.querySelectorAll('.timeline'), {
     mode: 'horizontal',
+    moveItems: 4,
     visibleItems: 4,
     forceVerticalWidth: 800
 });
@@ -204,7 +266,7 @@ And
 ```
 <br /><br />
 ### Vertical timeline
-With the first item aligned to the right
+With the first item aligned to the right and the elements set to come into view 150px from the bottom of the window
 
 [See demo](https://squarechip.github.io/timeline/#vertical-demo)
 <br />
@@ -212,7 +274,8 @@ With the first item aligned to the right
 **JavaScript**
 ```javascript
 timeline(document.querySelectorAll('.timeline'), {
-    verticalStartPosition: 'right'
+    verticalStartPosition: 'right',
+    verticalTrigger: '150px'
 });
 ```
 <br />
@@ -220,7 +283,8 @@ timeline(document.querySelectorAll('.timeline'), {
 **jQuery**
 ```javascript
 jQuery('.timeline').timeline({
-    verticalStartPosition: 'right'
+    verticalStartPosition: 'right',
+    verticalTrigger: '150px'
 });
 ```
 <br />
@@ -237,7 +301,7 @@ jQuery('.timeline').timeline();
 And
 
 ```html
-<div class="timeline" data-vertical-start-position="right">
+<div class="timeline" data-vertical-start-position="right" data-vertical-trigger="150px">
     ...
 </div>
 ```
@@ -245,9 +309,10 @@ And
 
 ## Upcoming development
 
-* Ability to choose how many items are visible at user defined breakpoints when using the timeline in horizontal mode
-* Ability to set how many items slide at a time when navigating through the horizontal timeline
-* Generate a tab menu to navigate to specific items
-* Ability to change classes for the HTML elements
-* Add various animation options for the vertical timeline (e.g. slide up/slide in/fade in)
-* Ability to set trigger distance from the top of the page in vertical mode
+- [ ] Ability to choose how many items are visible at user defined breakpoints when using the timeline in horizontal mode
+- [x] Ability to set how many items slide at a time when navigating through the horizontal timeline
+- [x] Ability to set trigger distance from the top of the page in vertical mode
+- [x] Add a horizontal start position option
+- [ ] Generate a tab menu to navigate to specific items
+- [ ] Ability to change classes for the HTML elements
+- [ ] Add various animation options for the vertical timeline (e.g. slide up/slide in/fade in)

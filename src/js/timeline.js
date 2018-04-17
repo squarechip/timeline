@@ -7,16 +7,46 @@ function timeline(collection, options) {
 
   // Set default settings
   const defaultSettings = {
-    mode: 'vertical',
-    forceVerticalMode: 600,
-    verticalStartPosition: 'left',
-    visibleItems: 3
+    forceVerticalMode: {
+      type: 'integer',
+      defaultValue: 600
+    },
+    horizontalStartPosition: {
+      type: 'string',
+      acceptedValues: ['bottom', 'top'],
+      defaultValue: 'top'
+    },
+    mode: {
+      type: 'string',
+      acceptedValues: ['horizontal', 'vertical'],
+      defaultValue: 'vertical'
+    },
+    moveItems: {
+      type: 'integer',
+      defaultValue: 1
+    },
+    verticalStartPosition: {
+      type: 'string',
+      acceptedValues: ['left', 'right'],
+      defaultValue: 'left'
+    },
+    verticalTrigger: {
+      type: 'string',
+      defaultValue: {
+        unit: '%',
+        value: '15'
+      }
+    },
+    visibleItems: {
+      type: 'integer',
+      defaultValue: 3
+    }
   };
 
   // Helper function to test whether values are an integer
   function testValues(value, settingName) {
     if (typeof value !== 'number' && value % 1 !== 0) {
-      console.warn(`${warningLabel} Supplied number '${value}' for ${settingName} is not an integer.`);
+      console.warn(`${warningLabel} The value "${value}" entered for the setting "${settingName}" is not an integer.`);
       return false;
     }
     return true;
@@ -38,10 +68,24 @@ function timeline(collection, options) {
   }
 
   // Helper function to check if an element is partially in the viewport
-  function isElementInViewport(el) {
+  function isElementInViewport(el, triggerPosition) {
     const rect = el.getBoundingClientRect();
+    const triggerUnit = triggerPosition.unit;
+    const triggerValue = triggerPosition.value;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    let trigger = windowHeight;
+    if (triggerUnit === 'px') {
+      if (triggerValue >= windowHeight) {
+        console.warn('The value entered for the setting "verticalTrigger" is larger than the window height. The default value will be used instead.');
+        trigger = parseInt(trigger * ((100 - defaultSettings.verticalTrigger.defaultValue.value) / 100), 10);
+      } else {
+        trigger = parseInt(trigger - triggerValue, 10);
+      }
+    } else if (triggerUnit === '%') {
+      trigger = parseInt(trigger * ((100 - triggerValue) / 100), 10);
+    }
     return (
-      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+      rect.top <= trigger &&
       rect.left <= (window.innerWidth || document.documentElement.clientWidth) &&
       (rect.top + rect.height) >= 0 &&
       (rect.left + rect.width) >= 0
@@ -56,56 +100,17 @@ function timeline(collection, options) {
     let wrap;
     let scroller;
     let items;
-    let {
-      mode, verticalStartPosition, forceVerticalMode, visibleItems
-    } = defaultSettings;
-    if (data.mode) {
-      ({ mode } = data);
-    } else if (options && options.mode) {
-      ({ mode } = options);
-    }
-    if (data.verticalStartPosition) {
-      ({ verticalStartPosition } = data);
-    } else if (options && options.verticalStartPosition) {
-      ({ verticalStartPosition } = options);
-    }
-    if (data.forceVerticalMode) {
-      ({ forceVerticalMode } = data);
-    } else if (options && options.forceVerticalMode) {
-      ({ forceVerticalMode } = options);
-    }
-    if (data.visibleItems) {
-      ({ visibleItems } = data);
-    } else if (options && options.visibleItems) {
-      ({ visibleItems } = options);
-    }
+    const settings = {};
 
-    if (mode !== 'horizontal' && mode !== 'vertical') {
-      console.warn(`${warningLabel}The mode '${mode}' was not recognised`);
-      ({ mode } = defaultSettings);
-    }
-
-    if (verticalStartPosition !== 'left' && verticalStartPosition !== 'right') {
-      console.warn(`${warningLabel}The start position '${verticalStartPosition}' was not recognised`);
-      ({ verticalStartPosition } = defaultSettings);
-    }
-
-    if (!forceVerticalMode || !testValues(forceVerticalMode, "'forceVerticalMode'")) {
-      ({ forceVerticalMode } = defaultSettings);
-    }
-
-    if (!visibleItems || !testValues(visibleItems, "'visibleItems'")) {
-      ({ visibleItems } = defaultSettings);
-    }
-
+    // Test for correct HTML structure
     try {
       wrap = timelineEl.querySelector('.timeline__wrap');
       if (!wrap) {
-        throw new Error(`${warningLabel}.timeline__wrap ${errorPart} ${timelineName}`);
+        throw new Error(`${warningLabel} .timeline__wrap ${errorPart} ${timelineName}`);
       } else {
         scroller = wrap.querySelector('.timeline__items');
         if (!scroller) {
-          throw new Error(`${warningLabel}.timeline__items ${errorPart} .timeline__wrap`);
+          throw new Error(`${warningLabel} .timeline__items ${errorPart} .timeline__wrap`);
         } else {
           items = [].slice.call(scroller.children, 0);
         }
@@ -115,15 +120,71 @@ function timeline(collection, options) {
       return false;
     }
 
+    // Test setting input values
+    Object.keys(defaultSettings).forEach((key) => {
+      settings[key] = defaultSettings[key].defaultValue;
+
+      if (data[key]) {
+        settings[key] = data[key];
+      } else if (options && options[key]) {
+        settings[key] = options[key];
+      }
+
+      if (defaultSettings[key].type === 'integer') {
+        if (!settings[key] || !testValues(settings[key], key)) {
+          settings[key] = defaultSettings[key].defaultValue;
+        }
+      } else if (defaultSettings[key].type === 'string') {
+        if (defaultSettings[key].acceptedValues && defaultSettings[key].acceptedValues.indexOf(settings[key]) === -1) {
+          console.warn(`${warningLabel} The value "${settings[key]}" entered for the setting "${key}" was not recognised.`);
+          settings[key] = defaultSettings[key].defaultValue;
+        }
+      }
+    });
+
+    // Further specific testing of input values
+    if (settings.verticalTrigger) {
+      const triggerArray = settings.verticalTrigger.match(/(\d*\.?\d*)(.*)/);
+      let triggerValue = triggerArray[1];
+      let triggerUnit = triggerArray[2];
+      let triggerValid = true;
+      if (!triggerValue) {
+        console.warn(`${warningLabel} No numercial value entered for the 'verticalTrigger' setting.`);
+        triggerValid = false;
+      }
+      if (triggerUnit !== 'px' && triggerUnit !== '%') {
+        console.warn(`${warningLabel} The setting 'verticalTrigger' must be a percentage or pixel value.`);
+        triggerValid = false;
+      }
+      if (triggerUnit === '%' && (triggerValue > 100 || triggerValue < 0)) {
+        console.warn(`${warningLabel} The 'verticalTrigger' setting value must be between 0 and 100 if using a percentage value.`);
+        triggerValid = false;
+      } else if (triggerUnit === 'px' && triggerValue < 0) {
+        console.warn(`${warningLabel} The 'verticalTrigger' setting value must be above 0 if using a pixel value.`);
+        triggerValid = false;
+      }
+
+      if (triggerValid === false) {
+        ({ unit: triggerUnit, value: triggerValue } = defaultSettings.verticalTrigger.defaultValue);
+      }
+
+      settings.verticalTrigger = {
+        unit: triggerUnit,
+        value: triggerValue
+      };
+    }
+
+    if (settings.moveItems > settings.visibleItems) {
+      console.warn(`${warningLabel} The value of "moveItems" (${settings.moveItems}) is larger than the number of "visibleItems" (${settings.visibleItems}). The value of "visibleItems" has been used instead.`);
+      settings.moveItems = settings.visibleItems;
+    }
+
     timelines.push({
       timelineEl,
       wrap,
       scroller,
-      mode,
-      verticalStartPosition,
       items,
-      visibleItems,
-      forceVerticalMode
+      settings
     });
   }
 
@@ -135,7 +196,7 @@ function timeline(collection, options) {
   function setHeightandWidths(tl) {
     // Set widths of items and viewport
     function setWidths() {
-      tl.itemWidth = tl.wrap.offsetWidth / tl.visibleItems;
+      tl.itemWidth = tl.wrap.offsetWidth / tl.settings.visibleItems;
       tl.items.forEach((item) => {
         item.style.width = `${tl.itemWidth}px`;
       });
@@ -159,15 +220,26 @@ function timeline(collection, options) {
       tl.items.forEach((item, i) => {
         if (i % 2 === 0) {
           item.style.height = `${evenIndexTallest}px`;
+          if (tl.settings.horizontalStartPosition === 'bottom') {
+            item.classList.add('timeline__item--bottom');
+            item.style.transform = `translateY(${evenIndexTallest}px)`;
+          } else {
+            item.classList.add('timeline__item--top');
+          }
         } else {
           item.style.height = `${oddIndexTallest}px`;
-          item.style.transform = `translateY(${evenIndexTallest}px)`;
+          if (tl.settings.horizontalStartPosition !== 'bottom') {
+            item.classList.add('timeline__item--bottom');
+            item.style.transform = `translateY(${evenIndexTallest}px)`;
+          } else {
+            item.classList.add('timeline__item--top');
+          }
         }
       });
       tl.scroller.style.height = `${evenIndexTallest + oddIndexTallest}px`;
     }
 
-    if (window.innerWidth > tl.forceVerticalMode) {
+    if (window.innerWidth > tl.settings.forceVerticalMode) {
       setWidths();
       setHeights();
     }
@@ -175,7 +247,7 @@ function timeline(collection, options) {
 
   // Create and add arrow controls to horizontal timeline
   function addNavigation(tl) {
-    if (tl.items.length > tl.visibleItems) {
+    if (tl.items.length > tl.settings.visibleItems) {
       const prevArrow = document.createElement('button');
       const nextArrow = document.createElement('button');
       const topPosition = tl.items[0].offsetHeight;
@@ -221,15 +293,18 @@ function timeline(collection, options) {
     const navArrows = tl.timelineEl.querySelectorAll('.timeline-nav-button');
     const arrowPrev = tl.timelineEl.querySelector('.timeline-nav-button--prev');
     const arrowNext = tl.timelineEl.querySelector('.timeline-nav-button--next');
-    const maxIndex = tl.items.length - tl.visibleItems;
+    const maxIndex = tl.items.length - tl.settings.visibleItems;
+    const moveItems = parseInt(tl.settings.moveItems, 10);
     [].forEach.call(navArrows, (arrow) => {
       arrow.addEventListener('click', function(e) {
         e.preventDefault();
-        currentIndex = this.classList.contains('timeline-nav-button--next') ? (currentIndex += 1) : (currentIndex -= 1);
-        if (currentIndex === 0) {
+        currentIndex = this.classList.contains('timeline-nav-button--next') ? (currentIndex += moveItems) : (currentIndex -= moveItems);
+        if (currentIndex === 0 || currentIndex < 0) {
+          currentIndex = 0;
           arrowPrev.disabled = true;
           arrowNext.disabled = false;
-        } else if (currentIndex === maxIndex) {
+        } else if (currentIndex === maxIndex || currentIndex > maxIndex) {
+          currentIndex = maxIndex;
           arrowPrev.disabled = false;
           arrowNext.disabled = true;
         } else {
@@ -256,13 +331,13 @@ function timeline(collection, options) {
     let lastVisibleIndex = 0;
     tl.items.forEach((item, i) => {
       item.classList.remove('animated', 'fadeIn');
-      if (!isElementInViewport(item) && i > 0) {
+      if (!isElementInViewport(item, tl.settings.verticalTrigger) && i > 0) {
         item.classList.add('animated');
       } else {
         lastVisibleIndex = i;
       }
-      const divider = tl.verticalStartPosition === 'left' ? 1 : 0;
-      if (i % 2 === divider && window.innerWidth > defaultSettings.forceVerticalMode) {
+      const divider = tl.settings.verticalStartPosition === 'left' ? 1 : 0;
+      if (i % 2 === divider && window.innerWidth > tl.settings.forceVerticalMode) {
         item.classList.add('timeline__item--right');
       } else {
         item.classList.add('timeline__item--left');
@@ -274,7 +349,7 @@ function timeline(collection, options) {
     // Bring elements into view as the page is scrolled
     window.addEventListener('scroll', () => {
       tl.items.forEach((item) => {
-        if (isElementInViewport(item)) {
+        if (isElementInViewport(item, tl.settings.verticalTrigger)) {
           item.classList.add('fadeIn');
         }
       });
@@ -304,10 +379,10 @@ function timeline(collection, options) {
         wrapElements(tl.items);
       }
       resetTimelines(tl);
-      if (window.innerWidth <= tl.forceVerticalMode) {
+      if (window.innerWidth <= tl.settings.forceVerticalMode) {
         tl.timelineEl.classList.add('timeline--mobile');
       }
-      if (tl.mode === 'horizontal' && window.innerWidth > tl.forceVerticalMode) {
+      if (tl.settings.mode === 'horizontal' && window.innerWidth > tl.settings.forceVerticalMode) {
         setUpHorinzontalTimeline(tl);
       } else {
         setUpVerticalTimeline(tl);
