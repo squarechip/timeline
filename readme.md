@@ -231,7 +231,6 @@ With 4 items visible in the viewport and changes into vertical mode at a 800px b
 ```
 timeline(document.querySelectorAll('.timeline'), {
     mode: 'horizontal',
-    moveItems: 4,
     visibleItems: 4,
     forceVerticalWidth: 800
 });
