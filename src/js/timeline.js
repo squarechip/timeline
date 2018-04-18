@@ -32,10 +32,7 @@ function timeline(collection, options) {
     },
     verticalTrigger: {
       type: 'string',
-      defaultValue: {
-        unit: '%',
-        value: '15'
-      }
+      defaultValue: '15%'
     },
     visibleItems: {
       type: 'integer',
@@ -143,36 +140,35 @@ function timeline(collection, options) {
     });
 
     // Further specific testing of input values
-    if (settings.verticalTrigger) {
-      const triggerArray = String(settings.verticalTrigger).match(/(\d*\.?\d*)(.*)/);
-      let triggerValue = triggerArray[1];
-      let triggerUnit = triggerArray[2];
-      let triggerValid = true;
-      if (!triggerValue) {
-        console.warn(`${warningLabel} No numercial value entered for the 'verticalTrigger' setting.`);
-        triggerValid = false;
-      }
-      if (triggerUnit !== 'px' && triggerUnit !== '%') {
-        console.warn(`${warningLabel} The setting 'verticalTrigger' must be a percentage or pixel value.`);
-        triggerValid = false;
-      }
-      if (triggerUnit === '%' && (triggerValue > 100 || triggerValue < 0)) {
-        console.warn(`${warningLabel} The 'verticalTrigger' setting value must be between 0 and 100 if using a percentage value.`);
-        triggerValid = false;
-      } else if (triggerUnit === 'px' && triggerValue < 0) {
-        console.warn(`${warningLabel} The 'verticalTrigger' setting value must be above 0 if using a pixel value.`);
-        triggerValid = false;
-      }
-
-      if (triggerValid === false) {
-        ({ unit: triggerUnit, value: triggerValue } = defaultSettings.verticalTrigger.defaultValue);
-      }
-
-      settings.verticalTrigger = {
-        unit: triggerUnit,
-        value: triggerValue
-      };
+    const defaultTrigger = defaultSettings.verticalTrigger.defaultValue.match(/(\d*\.?\d*)(.*)/);
+    const triggerArray = settings.verticalTrigger.match(/(\d*\.?\d*)(.*)/);
+    let triggerValue = triggerArray[1];
+    let triggerUnit = triggerArray[2];
+    let triggerValid = true;
+    if (!triggerValue) {
+      console.warn(`${warningLabel} No numercial value entered for the 'verticalTrigger' setting.`);
+      triggerValid = false;
     }
+    if (triggerUnit !== 'px' && triggerUnit !== '%') {
+      console.warn(`${warningLabel} The setting 'verticalTrigger' must be a percentage or pixel value.`);
+      triggerValid = false;
+    }
+    if (triggerUnit === '%' && (triggerValue > 100 || triggerValue < 0)) {
+      console.warn(`${warningLabel} The 'verticalTrigger' setting value must be between 0 and 100 if using a percentage value.`);
+      triggerValid = false;
+    } else if (triggerUnit === 'px' && triggerValue < 0) {
+      console.warn(`${warningLabel} The 'verticalTrigger' setting value must be above 0 if using a pixel value.`);
+      triggerValid = false;
+    }
+
+    if (triggerValid === false) {
+      [, triggerValue, triggerUnit] = defaultTrigger;
+    }
+
+    settings.verticalTrigger = {
+      unit: triggerUnit,
+      value: triggerValue
+    };
 
     if (settings.moveItems > settings.visibleItems) {
       console.warn(`${warningLabel} The value of "moveItems" (${settings.moveItems}) is larger than the number of "visibleItems" (${settings.visibleItems}). The value of "visibleItems" has been used instead.`);
