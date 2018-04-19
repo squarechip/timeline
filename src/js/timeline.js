@@ -67,17 +67,17 @@ function timeline(collection, options) {
   // Helper function to check if an element is partially in the viewport
   function isElementInViewport(el, triggerPosition) {
     const rect = el.getBoundingClientRect();
-    const triggerUnit = triggerPosition.unit;
-    const triggerValue = triggerPosition.value;
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const defaultTrigger = defaultSettings.verticalTrigger.defaultValue.match(/(\d*\.?\d*)(.*)/);
+    let triggerUnit = triggerPosition.unit;
+    let triggerValue = triggerPosition.value;
     let trigger = windowHeight;
+    if (triggerUnit === 'px' && triggerValue >= windowHeight) {
+      console.warn('The value entered for the setting "verticalTrigger" is larger than the window height. The default value will be used instead.');
+      [, triggerValue, triggerUnit] = defaultTrigger;
+    }
     if (triggerUnit === 'px') {
-      if (triggerValue >= windowHeight) {
-        console.warn('The value entered for the setting "verticalTrigger" is larger than the window height. The default value will be used instead.');
-        trigger = parseInt(trigger * ((100 - defaultSettings.verticalTrigger.defaultValue.value) / 100), 10);
-      } else {
-        trigger = parseInt(trigger - triggerValue, 10);
-      }
+      trigger = parseInt(trigger - triggerValue, 10);
     } else if (triggerUnit === '%') {
       trigger = parseInt(trigger * ((100 - triggerValue) / 100), 10);
     }
@@ -142,8 +142,7 @@ function timeline(collection, options) {
     // Further specific testing of input values
     const defaultTrigger = defaultSettings.verticalTrigger.defaultValue.match(/(\d*\.?\d*)(.*)/);
     const triggerArray = settings.verticalTrigger.match(/(\d*\.?\d*)(.*)/);
-    let triggerValue = triggerArray[1];
-    let triggerUnit = triggerArray[2];
+    let [, triggerValue, triggerUnit] = triggerArray;
     let triggerValid = true;
     if (!triggerValue) {
       console.warn(`${warningLabel} No numercial value entered for the 'verticalTrigger' setting.`);
@@ -405,6 +404,7 @@ function timeline(collection, options) {
   });
 }
 
+// Register as a jQuery plugin if the jQuery library is present
 if (window.jQuery) {
   (($) => {
     $.fn.timeline = function(opts) {
