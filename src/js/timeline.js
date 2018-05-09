@@ -2,6 +2,7 @@ function timeline(collection, options) {
   const timelines = [];
   const warningLabel = 'Timeline:';
   let winWidth = window.innerWidth;
+  let winHeight = window.innerHeight;
   let resizeTimer;
   let currentIndex = 0;
 
@@ -87,6 +88,13 @@ function timeline(collection, options) {
       (rect.top + rect.height) >= 0 &&
       (rect.left + rect.width) >= 0
     );
+  }
+
+  // Helper function to add transform styles
+  function addTransforms(el, transform) {
+    el.style.webkitTransform = transform;
+    el.style.msTransform = transform;
+    el.style.transform = transform;
   }
 
   // Create timelines
@@ -212,12 +220,14 @@ function timeline(collection, options) {
           oddIndexTallest = height > oddIndexTallest ? height : oddIndexTallest;
         }
       });
+
+      const transformString = `translateY(${evenIndexTallest}px)`;
       tl.items.forEach((item, i) => {
         if (i % 2 === 0) {
           item.style.height = `${evenIndexTallest}px`;
           if (tl.settings.horizontalStartPosition === 'bottom') {
             item.classList.add('timeline__item--bottom');
-            item.style.transform = `translateY(${evenIndexTallest}px)`;
+            addTransforms(item, transformString);
           } else {
             item.classList.add('timeline__item--top');
           }
@@ -225,7 +235,7 @@ function timeline(collection, options) {
           item.style.height = `${oddIndexTallest}px`;
           if (tl.settings.horizontalStartPosition !== 'bottom') {
             item.classList.add('timeline__item--bottom');
-            item.style.transform = `translateY(${evenIndexTallest}px)`;
+            addTransforms(item, transformString);
           } else {
             item.classList.add('timeline__item--top');
           }
@@ -264,8 +274,9 @@ function timeline(collection, options) {
 
   // Add the centre line to the horizontal timeline
   function addHorizontalDivider(tl) {
-    if (tl.timelineEl.querySelector('.timeline-divider')) {
-      tl.timelineEl.querySelector('.timeline-divider').remove();
+    const divider = tl.timelineEl.querySelector('.timeline-divider');
+    if (divider) {
+      tl.timelineEl.removeChild(divider);
     }
     const topPosition = tl.items[0].offsetHeight;
     const horizontalDivider = document.createElement('span');
@@ -278,9 +289,7 @@ function timeline(collection, options) {
   function timelinePosition(tl) {
     const position = tl.items[currentIndex].offsetLeft;
     const str = `translate3d(-${position}px, 0, 0)`;
-    tl.scroller.style.webkitTransform = str;
-    tl.scroller.style.msTransform = str;
-    tl.scroller.style.transform = str;
+    addTransforms(tl.scroller, str);
   }
 
   // Make the horizontal timeline slide
@@ -396,9 +405,11 @@ function timeline(collection, options) {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       const newWinWidth = window.innerWidth;
-      if (newWinWidth !== winWidth) {
+      const newWinHeight = window.innerHeight;
+      if (newWinWidth !== winWidth || newWinHeight !== winHeight) {
         setUpTimelines();
         winWidth = newWinWidth;
+        winHeight = newWinHeight;
       }
     }, 250);
   });
