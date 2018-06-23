@@ -79,9 +79,7 @@ gulp.task('images', () =>
 
 gulp.task('watch', () => {
   livereload.listen();
-  gulp.watch('src/scss/*.scss', ['build-css']);
-  gulp.watch('src/images/**', ['images']);
-  gulp.watch('src/js/timeline.js', ['build-js']);
+  gulp.watch('src/scss/*.scss', gulp.series('build-css'));
+  gulp.watch('src/images/**', gulp.series('images'));
+  gulp.watch('src/js/timeline.js', gulp.series('build-js'));
 });
-
-gulp.task('default', ['build-js', 'build-css', 'images']);

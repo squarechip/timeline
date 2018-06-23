@@ -159,6 +159,25 @@ Data attribute
 ```
 <br />
 
+**startIndex**
+
+When using the timeline in horizontal mode, define which item the timeline should start at
+
+JavaScript/jQuery
+```
+default: 0
+options: integer
+```
+
+Data attribute
+
+```html
+<div class="timeline" data-start-index="0">
+    ...
+</div>
+```
+<br />
+
 **verticalStartPosition**
 
 When using the timeline in vertical mode, define the alignment of the first item

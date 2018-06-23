@@ -5,7 +5,6 @@ function timeline(collection, options) {
   let winHeight = window.innerHeight;
   let resizeTimer;
   let currentIndex = 0;
-
   // Set default settings
   const defaultSettings = {
     forceVerticalMode: {
@@ -25,6 +24,10 @@ function timeline(collection, options) {
     moveItems: {
       type: 'integer',
       defaultValue: 1
+    },
+    startIndex: {
+      type: 'integer',
+      defaultValue: 0
     },
     verticalStartPosition: {
       type: 'string',
@@ -182,6 +185,14 @@ function timeline(collection, options) {
       settings.moveItems = settings.visibleItems;
     }
 
+    if (settings.startIndex >= (items.length - settings.visibleItems)) {
+      console.warn(`${warningLabel} The 'startIndex' setting must be between 0 and ${items.length - settings.visibleItems} for this timeline. The value of ${items.length - settings.visibleItems} has been used instead.`);
+      settings.startIndex = items.length - settings.visibleItems;
+    } else if (settings.startIndex < 0) {
+      console.warn(`${warningLabel} The 'startIndex' setting must be between 0 and ${items.length - settings.visibleItems} for this timeline. The value of 0 has been used instead.`);
+      settings.startIndex = 0;
+    }
+
     timelines.push({
       timelineEl,
       wrap,
@@ -322,6 +333,7 @@ function timeline(collection, options) {
 
   // Set up horizontal timeline
   function setUpHorinzontalTimeline(tl) {
+    currentIndex = tl.settings.startIndex;
     tl.timelineEl.classList.add('timeline--horizontal');
     setHeightandWidths(tl);
     timelinePosition(tl);
@@ -362,7 +374,6 @@ function timeline(collection, options) {
 
   // Reset timelines
   function resetTimelines(tl) {
-    currentIndex = 0;
     tl.timelineEl.classList.remove('timeline--horizontal', 'timeline--mobile');
     tl.scroller.removeAttribute('style');
     tl.items.forEach((item) => {
