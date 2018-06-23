@@ -26,23 +26,22 @@ const banner = [
   '',
 ].join('\n');
 
-gulp.task('build-js', () =>
-  gulp
-    .src('src/js/timeline.js')
-    .pipe(plumber())
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['env'],
-    }))
-    .pipe(uglify())
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(header(banner))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('dist/js/'))
-    .pipe(livereload()));
+gulp.task('build-js', () => gulp
+  .src('src/js/timeline.js')
+  .pipe(plumber())
+  .pipe(eslint())
+  .pipe(eslint.format())
+  .pipe(eslint.failAfterError())
+  .pipe(sourcemaps.init())
+  .pipe(babel({
+    presets: ['env'],
+  }))
+  .pipe(uglify())
+  .pipe(rename({ suffix: '.min' }))
+  .pipe(header(banner))
+  .pipe(sourcemaps.write('./'))
+  .pipe(gulp.dest('dist/js/'))
+  .pipe(livereload()));
 
 gulp.task('build-css', () => {
   const processors = [
@@ -70,12 +69,11 @@ gulp.task('build-css', () => {
     .pipe(livereload());
 });
 
-gulp.task('images', () =>
-  gulp
-    .src('src/images/**')
-    .pipe(imagemin())
-    .pipe(gulp.dest('dist/images'))
-    .pipe(livereload()));
+gulp.task('images', () => gulp
+  .src('src/images/**')
+  .pipe(imagemin())
+  .pipe(gulp.dest('dist/images'))
+  .pipe(livereload()));
 
 gulp.task('watch', () => {
   livereload.listen();

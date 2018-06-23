@@ -86,10 +86,10 @@ function timeline(collection, options) {
       trigger = parseInt(trigger * ((100 - triggerValue) / 100), 10);
     }
     return (
-      rect.top <= trigger &&
-      rect.left <= (window.innerWidth || document.documentElement.clientWidth) &&
-      (rect.top + rect.height) >= 0 &&
-      (rect.left + rect.width) >= 0
+      rect.top <= trigger
+      && rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+      && (rect.top + rect.height) >= 0
+      && (rect.left + rect.width) >= 0
     );
   }
 
