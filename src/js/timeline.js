@@ -275,7 +275,7 @@ function timeline(collection, options) {
       nextArrow.style.top = `${topPosition}px`;
       if (currentIndex === 0) {
         prevArrow.disabled = true;
-      } else if (currentIndex + 1 === tl.items.length) {
+      } else if (currentIndex === (tl.items.length - tl.settings.visibleItems)) {
         nextArrow.disabled = true;
       }
       tl.timelineEl.appendChild(prevArrow);
