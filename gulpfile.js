@@ -4,7 +4,6 @@ const eslint = require('gulp-eslint');
 const sass = require('gulp-sass');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
-const sourcemaps = require('gulp-sourcemaps');
 const imagemin = require('gulp-imagemin');
 const livereload = require('gulp-livereload');
 const cleanCSS = require('gulp-clean-css');
@@ -19,7 +18,7 @@ const header = require('gulp-header');
 const banner = [
   '/**',
   ' * Timeline - a horizontal / vertical timeline component',
-  ' * v. 1.1.2',
+  ' * v. 1.1.3',
   ' * Copyright Mike Collins',
   ' * MIT License',
   ' */',
@@ -32,14 +31,12 @@ gulp.task('build-js', () => gulp
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError())
-  .pipe(sourcemaps.init())
   .pipe(babel({
     presets: ['env'],
   }))
   .pipe(uglify())
   .pipe(rename({ suffix: '.min' }))
   .pipe(header(banner))
-  .pipe(sourcemaps.write('./'))
   .pipe(gulp.dest('dist/js/'))
   .pipe(livereload()));
 
@@ -59,12 +56,10 @@ gulp.task('build-css', () => {
   return gulp
     .src('src/scss/timeline.scss')
     .pipe(plumber())
-    .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(postcss(processors), { syntax: syntaxScss })
     .pipe(rename({ suffix: '.min' }))
     .pipe(cleanCSS())
-    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist/css/'))
     .pipe(livereload());
 });
