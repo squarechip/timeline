@@ -184,9 +184,12 @@ function timeline(collection, options) {
       settings.moveItems = settings.visibleItems;
     }
 
-    if (settings.startIndex >= (items.length - settings.visibleItems)) {
+    if (settings.startIndex > (items.length - settings.visibleItems) && items.length > settings.visibleItems) {
       console.warn(`${warningLabel} The 'startIndex' setting must be between 0 and ${items.length - settings.visibleItems} for this timeline. The value of ${items.length - settings.visibleItems} has been used instead.`);
       settings.startIndex = items.length - settings.visibleItems;
+    } else if (items.length <= settings.visibleItems) {
+      console.warn(`${warningLabel} The number of items in the timeline must exceed the number of visible items to use the 'startIndex' option.`);
+      settings.startIndex = 0;
     } else if (settings.startIndex < 0) {
       console.warn(`${warningLabel} The 'startIndex' setting must be between 0 and ${items.length - settings.visibleItems} for this timeline. The value of 0 has been used instead.`);
       settings.startIndex = 0;

@@ -2,7 +2,6 @@
   "name": "timeline",
   "version": "1.0.0",
   "description": "Vanilla JavaScript horizontal / vertical timeline component",
-  "main": "index.js",
   "author": "Mike Collins",
   "license": "MIT",
   "homepage": "https://github.com/squarechip/timeline",

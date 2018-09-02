@@ -18,7 +18,7 @@ const header = require('gulp-header');
 const banner = [
   '/**',
   ' * Timeline - a horizontal / vertical timeline component',
-  ' * v. 1.1.4',
+  ' * v. 1.1.5',
   ' * Copyright Mike Collins',
   ' * MIT License',
   ' */',
