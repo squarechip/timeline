@@ -113,7 +113,7 @@ options: integer
 Data attribute
 
 ```html
-<div class="timeline" data-force-vertical-width="600">
+<div class="timeline" data-force-vertical-mode="600">
     ...
 </div>
 ```
@@ -251,7 +251,7 @@ With 4 items visible in the viewport and changes into vertical mode at a 800px b
 timeline(document.querySelectorAll('.timeline'), {
     mode: 'horizontal',
     visibleItems: 4,
-    forceVerticalWidth: 800
+    forceVerticalMode: 800
 });
 ```
 <br />
@@ -261,7 +261,7 @@ timeline(document.querySelectorAll('.timeline'), {
 jQuery('.timeline').timeline({
     mode: 'horizontal',
     visibleItems: 4,
-    forceVerticalWidth: 800
+    forceVerticalMode: 800
 });
 ```
 <br />
