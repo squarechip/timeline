@@ -172,7 +172,7 @@ options: true / false
 Data attribute
 
 ```html
-<div class="timeline" data-rtl-mode="0">
+<div class="timeline" data-rtl-mode="true">
     ...
 </div>
 ```
