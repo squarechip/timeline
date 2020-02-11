@@ -24,6 +24,11 @@ function timeline(collection, options) {
       type: 'integer',
       defaultValue: 1
     },
+    rtlMode: {
+      type: 'boolean',
+      acceptedValues: [true, false],
+      defaultValue: false
+    },
     startIndex: {
       type: 'integer',
       defaultValue: 0
@@ -335,7 +340,11 @@ function timeline(collection, options) {
 
   // Set up horizontal timeline
   function setUpHorinzontalTimeline(tl) {
-    currentIndex = tl.settings.startIndex;
+    if (tl.settings.rtlMode) {
+      currentIndex = tl.items.length > tl.settings.visibleItems ? tl.items.length - tl.settings.visibleItems : 0;
+    } else {
+      currentIndex = tl.settings.startIndex;
+    }
     tl.timelineEl.classList.add('timeline--horizontal');
     setHeightandWidths(tl);
     timelinePosition(tl);

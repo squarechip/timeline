@@ -159,6 +159,25 @@ Data attribute
 ```
 <br />
 
+**rtlMode**
+
+When using the timeline in horizontal mode, this defines whether the timeline should start from the right. This overrides the startIndex setting.
+
+JavaScript/jQuery
+```
+default: false
+options: true / false
+```
+
+Data attribute
+
+```html
+<div class="timeline" data-rtl-mode="0">
+    ...
+</div>
+```
+<br />
+
 **startIndex**
 
 When using the timeline in horizontal mode, define which item the timeline should start at
