@@ -13,7 +13,7 @@
     "url": "https://github.com/squarechip/timeline/issues"
   },
   "scripts": {
-    "build": "gulp build-js && gulp build-css && gulp images"
+    "build": "gulp"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
