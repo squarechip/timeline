@@ -14,6 +14,7 @@ const pxtorem = require('postcss-pxtorem');
 const reporter = require('postcss-reporter');
 const syntaxScss = require('postcss-scss');
 const header = require('gulp-header');
+const removeLogging = require('gulp-remove-logging');
 
 const banner = [
   '/**',
@@ -32,10 +33,26 @@ gulp.task('build-js', () => gulp
   .pipe(eslint.format())
   .pipe(eslint.failAfterError())
   .pipe(babel({
-    presets: ['env'],
+    presets: ['env']
   }))
   .pipe(uglify())
   .pipe(rename({ suffix: '.min' }))
+  .pipe(header(banner))
+  .pipe(gulp.dest('dist/js/'))
+  .pipe(livereload()));
+
+gulp.task('build-js-production', () => gulp
+  .src('src/js/timeline.js')
+  .pipe(plumber())
+  .pipe(eslint())
+  .pipe(eslint.format())
+  .pipe(eslint.failAfterError())
+  .pipe(babel({
+    presets: ['env']
+  }))
+  .pipe(uglify())
+  .pipe(removeLogging())
+  .pipe(rename({ suffix: '.prod.min' }))
   .pipe(header(banner))
   .pipe(gulp.dest('dist/js/'))
   .pipe(livereload()));
@@ -76,3 +93,5 @@ gulp.task('watch', () => {
   gulp.watch('src/images/**', gulp.series('images'));
   gulp.watch('src/js/timeline.js', gulp.series('build-js'));
 });
+
+gulp.task('default', gulp.parallel('build-js', 'build-js-production', 'build-css', 'images'));
