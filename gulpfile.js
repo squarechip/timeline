@@ -16,6 +16,7 @@ const syntaxScss = require('postcss-scss');
 const header = require('gulp-header');
 const removeLogging = require('gulp-remove-logging');
 const runSequence = require('run-sequence');
+const merge = require('merge-stream');
 
 const banner = [
   '/**',
@@ -72,11 +73,16 @@ gulp.task('build-css', () => {
     })
   ];
 
-  return gulp
+  const scssStream = gulp
     .src('src/scss/timeline.scss')
     .pipe(plumber())
     .pipe(sass())
-    .pipe(postcss(processors), { syntax: syntaxScss })
+    .pipe(postcss(processors), { syntax: syntaxScss });
+
+  const cssStream = gulp
+    .src('node_modules/@fortawesome/fontawesome-free/css/fontawesome.css');
+
+  return merge(scssStream, cssStream)
     .pipe(rename({ suffix: '.min' }))
     .pipe(cleanCSS())
     .pipe(gulp.dest('dist/css/'))
