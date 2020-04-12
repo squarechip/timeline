@@ -36,22 +36,13 @@
         box-shadow: 0 0 0 6px #DDD;
         border-radius: 50%;
         content: '';
-        height: 40px;
+        height: 20px;
         position: absolute;
-        right: -20px;
+        right: -10px;
         transform: translateY(-50%);
         top: 50%;
-        width: 40px;
-        z-index: 1;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        font-size: 1.4em;
-        line-height: 40px;
-        -webkit-font-smoothing: antialiased;
-        text-align: center;
+        width: 20px;
+        z-index: 1;        
     }
     &.animated {
         animation-duration: 1s;
@@ -60,6 +51,23 @@
     }
     &.fadeIn {
         animation-name: fadeIn;
+    }
+    &.timeline__item--icon {
+        &::after {
+            box-shadow: 0 0 0 6px #DDD;
+            height: 40px;
+            width: 40px;
+            right: -20px;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            font-size: 1.4em;
+            line-height: 40px;
+            -webkit-font-smoothing: antialiased;
+            text-align: center;
+        }
     }
 }
 
@@ -71,7 +79,12 @@
 	left: 50%;
     padding: 10px 0 10px 40px;
     &::after {
-        left: -20px;
+        left: -10px;
+    }
+    &.timeline__item--icon {
+        &::after {
+            left: -20px;
+        }
     }
     .timeline__content {
         &::before {
