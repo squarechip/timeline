@@ -15,12 +15,15 @@ const reporter = require('postcss-reporter');
 const syntaxScss = require('postcss-scss');
 const header = require('gulp-header');
 const removeLogging = require('gulp-remove-logging');
+const runSequence = require('run-sequence');
+const merge = require('merge-stream');
 
 const banner = [
   '/**',
   ' * Timeline - a horizontal / vertical timeline component',
-  ' * v. 1.2.0',
+  ' * v. 1.3.0',
   ' * Copyright Mike Collins',
+  ' * Contributors Scott Covert',
   ' * MIT License',
   ' */',
   '',
@@ -70,11 +73,16 @@ gulp.task('build-css', () => {
     })
   ];
 
-  return gulp
+  const scssStream = gulp
     .src('src/scss/timeline.scss')
     .pipe(plumber())
     .pipe(sass())
-    .pipe(postcss(processors), { syntax: syntaxScss })
+    .pipe(postcss(processors), { syntax: syntaxScss });
+
+  const cssStream = gulp
+    .src('node_modules/@fortawesome/fontawesome-free/css/fontawesome.css');
+
+  return merge(scssStream, cssStream)
     .pipe(rename({ suffix: '.min' }))
     .pipe(cleanCSS())
     .pipe(gulp.dest('dist/css/'))
@@ -94,4 +102,6 @@ gulp.task('watch', () => {
   gulp.watch('src/js/timeline.js', gulp.series('build-js'));
 });
 
-gulp.task('default', gulp.parallel('build-js', 'build-js-production', 'build-css', 'images'));
+gulp.task('default', () => {
+  runSequence(['build-js', 'build-js-production', 'build-css', 'images']);
+});
